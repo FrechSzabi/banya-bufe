@@ -1,0 +1,117 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+ * Design tokenek – a Bánya Büfé brandingje alapján:
+ * közel fekete konténer, mustársárga kiemelés, csontfehér szöveg,
+ * fehér + piros/sárga neon feliratok.
+ * ------------------------------------------------------------------ */
+@theme {
+  --color-ink: #0c0c0b;
+  --color-coal: #141412;
+  --color-graphite: #1d1d1a;
+  --color-steel: #2f2f2a;
+  --color-ash: #a19d91;
+  --color-bone: #f3eee2;
+  --color-mustard: #f4c430;
+  --color-mustard-deep: #d6a616;
+  --color-signal: #ff4d3d;
+  --color-go: #7be38f;
+
+  --font-display: "Bebas Neue", "Oswald", Impact, "Arial Narrow", sans-serif;
+  --font-condensed: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-body: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --animate-flicker: flicker 6s linear infinite;
+
+  @keyframes flicker {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% { opacity: 1; }
+    20%, 24%, 55% { opacity: 0.55; }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
+  }
+
+  body {
+    min-height: 100svh;
+    background-color: var(--color-ink);
+    /* Finom beton-szerű zaj textúra, inline SVG-ből */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 .09 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    color: var(--color-bone);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: var(--color-mustard);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-mustard);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* Neon feliratok – a konténeren lévő "BÁNYA BÜFÉ" világító táblát idézik */
+@utility neon-white {
+  color: #fff;
+  text-shadow:
+    0 0 2px rgb(255 255 255 / 0.95),
+    0 0 10px rgb(255 255 255 / 0.55),
+    0 0 26px rgb(200 225 255 / 0.35);
+}
+
+@utility neon-mustard {
+  color: var(--color-mustard);
+  text-shadow:
+    0 0 2px rgb(255 228 140 / 0.95),
+    0 0 12px rgb(244 196 48 / 0.6),
+    0 0 32px rgb(244 196 48 / 0.4);
+}
+
+@utility glow-mustard {
+  box-shadow:
+    0 0 0 1px rgb(244 196 48 / 0.7),
+    0 0 16px rgb(244 196 48 / 0.35),
+    0 0 44px rgb(244 196 48 / 0.18);
+}
+
+/* A konténer homlokzat fekete-fehér függőleges csíkjai */
+@utility stripes {
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--color-bone) 0 14px,
+    var(--color-ink) 14px 26px
+  );
+}
+
+/* Sárga-fekete figyelmeztető csík (ipari hangulat) */
+@utility hazard {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--color-mustard) 0 10px,
+    var(--color-ink) 10px 20px
+  );
+}
+
+/* Hullámlemez-szerű finom rács a kártyák hátteréhez */
+@utility corrugated {
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgb(255 255 255 / 0.025) 0 2px,
+    transparent 2px 18px
+  );
+}
