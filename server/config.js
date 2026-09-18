@@ -3,6 +3,13 @@ import { fileURLToPath } from 'node:url';
 
 const projectRoot = fileURLToPath(new URL('..', import.meta.url));
 
+/** "1" → 1 (proxy ugrások száma), "true" → true, egyéb szöveg → IP / alhálózat lista az Express szerint. */
+const parseTrustProxy = (value) => {
+  if (!value || value === 'false') return false;
+  if (value === 'true') return true;
+  return /^\d+$/.test(value) ? Number(value) : value;
+};
+
 if (!process.env.SESSION_SECRET) {
   console.warn('[config] SESSION_SECRET nincs beállítva – újraindításkor az admin belépések érvénytelenné válnak.');
 }
@@ -12,11 +19,10 @@ if (!process.env.ADMIN_PASSWORD) {
 
 export const config = {
   port: Number(process.env.PORT) || 3001,
-  isProduction: process.env.NODE_ENV === 'production',
   dbPath: process.env.DB_PATH || `${projectRoot}data/orders.db`,
   distDir: `${projectRoot}dist`,
   adminPassword: process.env.ADMIN_PASSWORD || null,
   sessionSecret: process.env.SESSION_SECRET || randomBytes(32).toString('hex'),
   // Reverse proxy (pl. nginx) mögött kell, hogy a rate limit a valódi kliens IP-t lássa
-  trustProxy: process.env.TRUST_PROXY || false,
+  trustProxy: parseTrustProxy(process.env.TRUST_PROXY),
 };

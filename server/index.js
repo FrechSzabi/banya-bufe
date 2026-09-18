@@ -52,7 +52,7 @@ app.use('/api/admin', (req, res, next) => {
 app.post('/api/admin/login', loginLimiter, (req, res) => {
   if (!isAdminConfigured()) return res.status(503).json({ error: 'Az admin jelszó nincs beállítva a szerveren.' });
   if (!checkPassword(req.body?.password)) return res.status(401).json({ error: 'Hibás jelszó.' });
-  setSessionCookie(res);
+  setSessionCookie(req, res);
   res.json({ ok: true });
 });
 

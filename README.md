@@ -74,4 +74,5 @@ server/              index.js (Express), db.js (SQLite), orderBuilder.js (ár-ú
 A backend miatt Node.js-t futtató tárhely kell (VPS, Render, Railway, Fly.io stb.) – tisztán statikus
 tárhely (Netlify, Vercel static) már nem elég. Az adatbázis fájlnak tartós (perzisztens) lemezen kell lennie.
 Az `npm start` a frontendet is kiszolgálja, és minden egyéb útvonalra az `index.html`-t adja (SPA).
-HTTPS-t a reverse proxy (pl. nginx, Caddy) adjon; ilyenkor `TRUST_PROXY=1` és `NODE_ENV=production`.
+HTTPS-t a reverse proxy (pl. nginx, Caddy, Railway) adjon; ilyenkor `TRUST_PROXY=1` kell, hogy a szerver
+a valódi kliens IP-t és a HTTPS-t lássa (a belépési süti ekkor automatikusan `Secure`).

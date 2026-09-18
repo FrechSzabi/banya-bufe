@@ -39,12 +39,12 @@ const parseCookies = (header = '') =>
 const cookieOptions = {
   httpOnly: true,
   sameSite: 'strict',
-  secure: config.isProduction,
   path: '/api/admin',
 };
 
-export const setSessionCookie = (res) =>
-  res.cookie(SESSION_COOKIE, createSessionToken(), { ...cookieOptions, maxAge: SESSION_TTL_MS });
+// HTTPS-en (proxy mögött TRUST_PROXY kell hozzá) a süti csak titkosított kapcsolaton megy
+export const setSessionCookie = (req, res) =>
+  res.cookie(SESSION_COOKIE, createSessionToken(), { ...cookieOptions, secure: req.secure, maxAge: SESSION_TTL_MS });
 
 export const clearSessionCookie = (res) => res.clearCookie(SESSION_COOKIE, cookieOptions);
 
