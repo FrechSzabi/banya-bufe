@@ -1,4 +1,4 @@
-import { businessInfo } from '../data/businessInfo';
+import { businessInfo } from '../data/businessInfo.js';
 
 export const OTHER_TOWN = 'other';
 

@@ -1,4 +1,4 @@
-import { formatPrice } from './formatPrice';
+import { formatPrice } from './formatPrice.js';
 
 /**
  * Egy kosársor ("line") egy étel adott konfigurációval, pl.

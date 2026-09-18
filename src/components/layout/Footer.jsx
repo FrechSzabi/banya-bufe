@@ -97,13 +97,26 @@ export default function Footer() {
           <p>
             © {new Date().getFullYear()} {businessInfo.name}. Minden jog fenntartva.
           </p>
-          <button
-            type="button"
-            onClick={() => setIsImpressumOpen(true)}
-            className="w-fit underline decoration-steel underline-offset-4 transition hover:text-mustard"
-          >
-            Impresszum
-          </button>
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-6">
+            <p>
+              Fejlesztette:{' '}
+              <a
+                href="https://sf-webdesign.hu"
+                target="_blank"
+                rel="noreferrer"
+                className="underline decoration-steel underline-offset-4 transition hover:text-mustard"
+              >
+                SF-Webdesign
+              </a>
+            </p>
+            <button
+              type="button"
+              onClick={() => setIsImpressumOpen(true)}
+              className="w-fit underline decoration-steel underline-offset-4 transition hover:text-mustard"
+            >
+              Impresszum
+            </button>
+          </div>
         </div>
       </div>
 

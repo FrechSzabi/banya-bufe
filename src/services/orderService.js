@@ -1,34 +1,30 @@
-import { businessInfo } from '../data/businessInfo';
-
-const SIMULATED_LATENCY_MS = 900;
-
-const generateOrderNumber = () => {
-  const random = Math.floor(1000 + Math.random() * 9000);
-  return `BB-${new Date().getFullYear().toString().slice(-2)}${random}`;
-};
-
 /**
- * MOCK rendelés-leadás – frontend-only.
+ * Rendelés leadása a backendnek (server/index.js → POST /api/orders).
  *
- * TODO: a valódi rendelés-továbbítást egy külön backend szolgáltatással
- * kell összekötni (pl. REST API végpont, amely e-mailt / SMS-t küld a
- * büfének, vagy egy rendeléskezelő rendszerbe írja a rendelést).
- * Példa:
- *   const response = await fetch('/api/orders', {
- *     method: 'POST',
- *     headers: { 'Content-Type': 'application/json' },
- *     body: JSON.stringify(order),
- *   });
- *   if (!response.ok) throw new Error('A rendelés leadása sikertelen');
- *   return response.json();
+ * Csak azonosítókat küldünk (tétel, fajta, köret, szósz, extrák) – a neveket
+ * és az árakat a szerver az étlapból számolja újra, és a végösszeget visszaadja.
  */
-export const submitOrder = async (order) => {
-  console.log('[Bánya Büfé] Új rendelés (mock):', order);
+const toOrderLine = ({ itemId, quantity, options }) => ({
+  itemId,
+  quantity,
+  options: {
+    variant: options.variant ?? null,
+    isMenu: options.isMenu,
+    sideId: options.side?.id ?? null,
+    sauceId: options.sauce?.id ?? null,
+    addonIds: options.addons.map((addon) => addon.id),
+  },
+});
 
-  await new Promise((resolve) => setTimeout(resolve, SIMULATED_LATENCY_MS));
+export const submitOrder = async ({ customer, lines }) => {
+  const response = await fetch('/api/orders', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ customer, lines: lines.map(toOrderLine) }),
+  });
 
-  return {
-    orderNumber: generateOrderNumber(),
-    estimatedMinutes: businessInfo.delivery.estimatedMinutes,
-  };
+  if (!response.ok) throw new Error('A rendelés leadása sikertelen');
+
+  /** { orderNumber, total, estimatedMinutes } */
+  return response.json();
 };

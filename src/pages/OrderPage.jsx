@@ -12,14 +12,13 @@ import OrderConfirmation from '../components/order/OrderConfirmation';
 import OrderSummary from '../components/order/OrderSummary';
 
 export default function OrderPage() {
-  const { lines, subtotal, clearCart } = useCart();
+  const { lines, clearCart } = useCart();
   const [confirmedOrder, setConfirmedOrder] = useState(null);
   const navigate = useNavigate();
 
   const placeOrder = async (customer) => {
-    const total = subtotal + (businessInfo.delivery.fee ?? 0);
-    const result = await submitOrder({ customer, lines, subtotal, total, createdAt: new Date().toISOString() });
-    setConfirmedOrder({ ...result, total, customerName: customer.name });
+    const result = await submitOrder({ customer, lines });
+    setConfirmedOrder({ ...result, customerName: customer.name });
     clearCart();
   };
 

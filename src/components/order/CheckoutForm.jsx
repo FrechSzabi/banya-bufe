@@ -1,6 +1,7 @@
 import { Banknote, CreditCard, Loader2, TriangleAlert } from 'lucide-react';
 import { businessInfo } from '../../data/businessInfo';
-import { PAYMENT_METHODS, useCheckoutForm } from '../../hooks/useCheckoutForm';
+import { PAYMENT_METHODS } from '../../data/paymentMethods';
+import { useCheckoutForm } from '../../hooks/useCheckoutForm';
 import { useOpeningStatus } from '../../hooks/useOpeningStatus';
 import { OTHER_TOWN } from '../../utils/checkoutValidation';
 import Button from '../common/Button';

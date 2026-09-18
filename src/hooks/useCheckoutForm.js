@@ -1,10 +1,6 @@
 import { useState } from 'react';
+import { PAYMENT_METHODS } from '../data/paymentMethods';
 import { OTHER_TOWN, normalizePhone, validateCheckout, validateField } from '../utils/checkoutValidation';
-
-export const PAYMENT_METHODS = [
-  { value: 'cash', label: 'Készpénz átvételkor' },
-  { value: 'card', label: 'Bankkártya átvételkor' },
-];
 
 const INITIAL_VALUES = {
   name: '',
